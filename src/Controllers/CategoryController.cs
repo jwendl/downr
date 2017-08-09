@@ -10,7 +10,6 @@ namespace downr.Controllers
     {
         public CategoryController(IYamlIndexer indexer) : base(indexer) { }
 
-        [Route("category/{name}")]
         public IActionResult Index(string name)
         {
             // get all the posts in this category
@@ -29,10 +28,15 @@ namespace downr.Controllers
                 }
 
                 ViewBag.TitlesInCategory = titlesInCategory;
-                return View("Post", postsForView.ToArray());
+                var model = new PostListModel
+                {
+                    Posts = postsForView.ToArray()
+                    // TODO - add paging
+                };
+                return View("PostList", model);
             }
 
-            return View();
+            return RedirectToRoute("blog-index");
         }
     }
 }

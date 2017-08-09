@@ -33,7 +33,7 @@ namespace downr.Services
             foreach (var subDirectory in subDirectories)
             {
                 using (var rdr = File.OpenText(
-                    string.Format("{0}\\index.md", subDirectory)
+                        Path.Combine(subDirectory, "index.md")
                     ))
                 {
                     // make sure the file has the header at the first line
@@ -64,7 +64,7 @@ namespace downr.Services
                             Author = result[Strings.MetadataNames.Author],
                             PublicationDate = DateTime.Parse(result[Strings.MetadataNames.PublicationDate]),
                             LastModified = DateTime.Parse(result[Strings.MetadataNames.LastModified]),
-                            Categories = result[Strings.MetadataNames.Categories].Split(','),
+                            Categories = result[Strings.MetadataNames.Categories]?.Split(',') ?? new string[]{},
                             Content = _markdownLoader.GetContentToRender(result[Strings.MetadataNames.Slug])
                         };
 
